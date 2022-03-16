@@ -1,0 +1,77 @@
+# _BASE_: updown_emnlp.yml
+
+# shell
+# python tools/train.py --cfg configs/para/x2_scst.yml 
+
+# base
+caption_model: "x2"
+training_method: 'scst'
+
+# #####################
+temperature: 1.0
+###################
+
+# vary
+config_path: "models_params/x2-scst/"
+model_name: "x2"
+pretrained: False # change here and below `pretrained_path` for scst training
+pretrained_path: ""
+cuda_visible_devices: "2"
+device: "cuda"
+use_tb: True
+learning_rate: 0.00002
+self_critical_after: 0
+batch_size: 8
+max_epochs: 40
+save_checkpoint_every: 500
+train_sample_n: 2
+train_sample_method: "sample"
+fc_feat_size: 2048
+att_feat_size: 2048
+seq_length: 175
+# Maximum length during sampling
+max_length: 175
+block_trigrams: 1
+cider_reward_weight: 1.0
+bleu_reward_weight: 2.0
+meteor_reward_weight: 1.0
+
+# input
+cached_tokens: "./data/para_train-idxs"
+encoded_paragraphs_path: "./data/paratalk_label.h5"
+paratalk_vocab_path: "./data/paratalk.json"
+input_fc_dir: "./data/bu_fea/bu/parabu_fc"
+input_att_dir: "./data/bu_fea/bu/parabu_att"
+input_box_dir: "./data/bu_fea/bu/parabu_box"
+input_object_dir: "./data/bu_fea_oa/bu/bu_object500"
+input_attr_dir: "./data/bu_fea_oa/bu/bu_attr"
+scheduled_sampling_start: -1
+
+rnn_size: 512
+input_encoding_size: 512
+att_hid_size: 512
+seq_per_img: 1
+
+rel_iou_threshold: 0.1
+bboxes_embed_size: 512
+class_embed_size: 300
+drop_prob_lm: 0.3
+
+# tensorborad log
+losses_log_every: 50
+print_freq: 20
+
+# number of layers in the RNN
+num_layers: 2
+
+# other
+semantic_relation_size: 201
+semantic_relation_layers: 1
+use_enhanced_feats: 0
+drop_prob_position: 0.3
+drop_prob_semantic: 0.3
+w2v_path: "./data/t_objects_vestors.h5"
+relation_loss_weight: 1.0
+hierarchy_attention: 2
+padding_region_length: 30
+gt_relation_path: "./data/relationships_500_500_200.h5"
